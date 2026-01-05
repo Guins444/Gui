@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<title>I love u</title>
+<title>FUNCIONOU</title>
 
 <style>
 html, body {
@@ -20,7 +20,7 @@ html, body {
   position: fixed;
   inset: 0;
   background: black;
-  z-index: 5000;
+  z-index: 10000;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -39,14 +39,20 @@ input, button {
 
 button { cursor: pointer; }
 
+/* ===== CONTEÚDO (ESCONDIDO) ===== */
+#conteudo {
+  display: none;
+  width: 100%;
+  height: 100%;
+}
+
 /* ===== GALERIA ===== */
 #galeria {
-  display: none;
   width: 100%;
   height: 100%;
   padding: 10px;
   box-sizing: border-box;
-  display: none;
+  display: grid;
   grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
   gap: 10px;
 }
@@ -64,8 +70,8 @@ button { cursor: pointer; }
   transform: scale(1.05);
 }
 
-/* ===== MODAL ===== */
-#modalGaleria {
+/* ===== MODAL FULLSCREEN ===== */
+#modal {
   position: fixed;
   inset: 0;
   background: rgba(0,0,0,0.95);
@@ -75,7 +81,7 @@ button { cursor: pointer; }
   z-index: 9000;
 }
 
-#modalGaleria img {
+#modal img {
   max-width: 95%;
   max-height: 95%;
   border-radius: 12px;
@@ -100,7 +106,6 @@ button { cursor: pointer; }
   background: rgba(0,0,0,0.75);
   border: 2px solid #ff5fa2;
   border-radius: 15px;
-  display: none;
   z-index: 3000;
 }
 
@@ -138,48 +143,51 @@ button { cursor: pointer; }
 <!-- LOGIN -->
 <div id="login">
   <h1>I love u</h1>
-  <form onsubmit="entrar(); return false;">
-    <input type="password" id="senha" placeholder="Senha">
-    <button>Entrar</button>
-  </form>
+  <input type="password" id="senha" placeholder="Senha">
+  <button onclick="entrar()">Entrar</button>
 </div>
 
-<!-- GALERIA -->
-<div id="galeria">
-  <img src="bg1.jpeg" onclick="abrirModal(this.src)">
-  <img src="bg2.jpeg" onclick="abrirModal(this.src)">
-  <img src="bg3.jpeg" onclick="abrirModal(this.src)">
-  <img src="bg4.jpeg" onclick="abrirModal(this.src)">
-  <img src="bg5.jpeg" onclick="abrirModal(this.src)">
-  <img src="bg6.jpeg" onclick="abrirModal(this.src)">
-  <img src="bg7.jpeg" onclick="abrirModal(this.src)">
-  <img src="bg8.jpeg" onclick="abrirModal(this.src)">
-  <img src="bg9.jpeg" onclick="abrirModal(this.src)">
-  <img src="bg10.jpeg" onclick="abrirModal(this.src)">
-  <img src="bg11.jpeg" onclick="abrirModal(this.src)">
-  <img src="bg12.jpeg" onclick="abrirModal(this.src)">
-  <img src="bg13.jpeg" onclick="abrirModal(this.src)">
-  <img src="bg14.jpeg" onclick="abrirModal(this.src)">
-  <img src="bg15.jpeg" onclick="abrirModal(this.src)">
-  <img src="bg16.jpeg" onclick="abrirModal(this.src)">
-  <img src="bg17.jpeg" onclick="abrirModal(this.src)">
+<!-- CONTEÚDO ESCONDIDO -->
+<div id="conteudo">
+
+  <!-- GALERIA -->
+  <div id="galeria">
+    <img src="bg1.jpeg" onclick="abrir(this.src)">
+    <img src="bg2.jpeg" onclick="abrir(this.src)">
+    <img src="bg3.jpeg" onclick="abrir(this.src)">
+    <img src="bg4.jpeg" onclick="abrir(this.src)">
+    <img src="bg5.jpeg" onclick="abrir(this.src)">
+    <img src="bg6.jpeg" onclick="abrir(this.src)">
+    <img src="bg7.jpeg" onclick="abrir(this.src)">
+    <img src="bg8.jpeg" onclick="abrir(this.src)">
+    <img src="bg9.jpeg" onclick="abrir(this.src)">
+    <img src="bg10.jpeg" onclick="abrir(this.src)">
+    <img src="bg11.jpeg" onclick="abrir(this.src)">
+    <img src="bg12.jpeg" onclick="abrir(this.src)">
+    <img src="bg13.jpeg" onclick="abrir(this.src)">
+    <img src="bg14.jpeg" onclick="abrir(this.src)">
+    <img src="bg15.jpeg" onclick="abrir(this.src)">
+    <img src="bg16.jpeg" onclick="abrir(this.src)">
+    <img src="bg17.jpeg" onclick="abrir(this.src)">
+  </div>
+
+  <!-- PLAYER -->
+  <div id="player">
+    <img src="amour.jpeg">
+    <div id="controles">
+      <span onclick="voltar()">⏪</span>
+      <span id="playBtn" onclick="playPause()">▶️</span>
+      <span onclick="avancar()">⏩</span>
+    </div>
+    <input type="range" id="volume" min="0" max="1" step="0.01">
+  </div>
+
 </div>
 
 <!-- MODAL -->
-<div id="modalGaleria">
-  <span id="fechar">✕</span>
-  <img id="imgModal">
-</div>
-
-<!-- PLAYER -->
-<div id="player">
-  <img src="amour.jpeg">
-  <div id="controles">
-    <span onclick="voltar()">⏪</span>
-    <span id="playBtn" onclick="playPause()">▶️</span>
-    <span onclick="avancar()">⏩</span>
-  </div>
-  <input type="range" id="volume" min="0" max="1" step="0.01">
+<div id="modal">
+  <span id="fechar" onclick="fechar()">✕</span>
+  <img id="imgGrande">
 </div>
 
 <audio id="musica" src="musica.mp3"></audio>
@@ -187,17 +195,26 @@ button { cursor: pointer; }
 <div id="gatinho">🐱</div>
 
 <script>
-/* ===== SENHA ===== */
-const senhaOfuscada = "MTAxMjIwMjU="; // 10122025
+/* ===== LOGIN ===== */
+const senhaCorreta = "10122025";
 
 function entrar() {
-  if (document.getElementById("senha").value === atob(senhaOfuscada)) {
+  if (document.getElementById("senha").value === senhaCorreta) {
     document.getElementById("login").style.display = "none";
-    document.getElementById("galeria").style.display = "grid";
-    document.getElementById("player").style.display = "block";
+    document.getElementById("conteudo").style.display = "block";
   } else {
     alert("Senha incorreta!");
   }
+}
+
+/* ===== GALERIA ===== */
+function abrir(src) {
+  document.getElementById("imgGrande").src = src;
+  document.getElementById("modal").style.display = "flex";
+}
+
+function fechar() {
+  document.getElementById("modal").style.display = "none";
 }
 
 /* ===== PLAYER ===== */
@@ -205,8 +222,8 @@ const audio = document.getElementById("musica");
 const playBtn = document.getElementById("playBtn");
 const volume = document.getElementById("volume");
 
-volume.value = 0.2;
 audio.volume = 0.2;
+volume.value = 0.2;
 
 function playPause() {
   if (audio.paused) {
@@ -222,21 +239,9 @@ function voltar() { audio.currentTime = 0; }
 function avancar() { audio.currentTime += 10; }
 volume.oninput = () => audio.volume = volume.value;
 
-/* ===== MODAL ===== */
-const modal = document.getElementById("modalGaleria");
-const imgModal = document.getElementById("imgModal");
-
-function abrirModal(src) {
-  imgModal.src = src;
-  modal.style.display = "flex";
-}
-
-document.getElementById("fechar").onclick = () => modal.style.display = "none";
-modal.onclick = e => { if (e.target === modal) modal.style.display = "none"; };
-
 /* ===== GATINHO ===== */
 const gato = document.getElementById("gatinho");
-let mx = 0, my = 0, gx = 0, gy = 0;
+let mx=0,my=0,gx=0,gy=0;
 
 document.addEventListener("mousemove", e => {
   mx = e.clientX;
