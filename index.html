@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<title>GuiIsaWorld</title>
+<title>I LOVE U</title>
 
 <style>
 /* ===== BASE ===== */
@@ -15,8 +15,7 @@ html, body {
   color: #ff5fa2;
   background: transparent;
 }
-
-/* ===== FUNDOS (FADE REAL) ===== */
+  
 #bg1, #bg2 {
   position: fixed;
   inset: 0;
@@ -32,7 +31,6 @@ html, body {
   opacity: 1;
 }
 
-/* ===== LOGIN ===== */
 #login {
   height: 100vh;
   display: flex;
@@ -55,7 +53,6 @@ input, button {
 
 button { cursor: pointer; }
 
-/* ===== GATINHO ===== */
 #gatinho {
   position: fixed;
   left: 0;
@@ -66,7 +63,6 @@ button { cursor: pointer; }
   z-index: 999;
 }
 
-/* ===== VIOLAÇÃO ===== */
 #violacao {
   display: none;
   position: fixed;
@@ -84,36 +80,29 @@ button { cursor: pointer; }
 
 <body>
 
-<!-- FUNDOS -->
 <div id="bg1"></div>
 <div id="bg2"></div>
 
-<!-- GATINHO -->
 <div id="gatinho">❤️</div>
 
-<!-- LOGIN -->
 <div id="login">
-  <h1>GuiIsaWorld</h1>
+  <h1>I LOVE U ❤️</h1>
   <form onsubmit="entrar(); return false;">
     <input type="password" id="senha" placeholder="Senha">
     <button type="submit">Entrar</button>
   </form>
 </div>
-
-<!-- ÁUDIO -->
 <audio id="musica" src="musica.mp3" loop></audio>
 
-<!-- VIOLAÇÃO -->
 <div id="violacao">
-⚠ VIOLAÇÃO DETECTADA ⚠<br><br>
-Tentativa de inspeção do sistema
+⚠ Não tente espionar ⚠<br><br>
+Tentativa de ispionar
 </div>
 
 <script>
-/* ===== SENHA ===== */
+
 const senhaOfuscada = "MTAxMjIwMjUxMzozMA=="; // 1012202513:30
 
-/* ===== FUNDOS ===== */
 const fundos = [
   "WhatsApp Image 2026-01-04 at 10.19.34 (1).jpeg",
   "WhatsApp Image 2026-01-04 at 10.19.34.jpeg",
@@ -139,7 +128,6 @@ let ativo = 1;
 const bg1 = document.getElementById("bg1");
 const bg2 = document.getElementById("bg2");
 
-/* ===== FUNDO INICIAL ===== */
 bg1.style.backgroundImage = `url('${fundos[0]}')`;
 bg1.classList.add("active");
 idx = 1;
@@ -160,7 +148,6 @@ function iniciarFundos() {
   setInterval(trocarFundo, 4000);
 }
 
-/* ===== LOGIN ===== */
 function entrar() {
   if (document.getElementById("senha").value === atob(senhaOfuscada)) {
     document.getElementById("login").style.display = "none";
@@ -174,7 +161,6 @@ function entrar() {
   }
 }
 
-/* ===== GATINHO SEGUE MOUSE ===== */
 const gato = document.getElementById("gatinho");
 let mouseX = 0, mouseY = 0;
 let gatoX = 0, gatoY = 0;
@@ -192,7 +178,6 @@ function moverGato() {
 }
 moverGato();
 
-/* ===== DEVTOOLS FAKE ===== */
 let violacao = false;
 setInterval(() => {
   if ((window.outerWidth - window.innerWidth > 160 ||
@@ -210,4 +195,5 @@ document.addEventListener("keydown", e => {
 
 </body>
 </html>
+
 
