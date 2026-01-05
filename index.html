@@ -2,259 +2,257 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<title>FUNCIONOU</title>
+<title>I love u</title>
 
 <style>
-html, body {
-  margin: 0;
-  width: 100%;
-  height: 100%;
-  background: black;
-  color: #ff5fa2;
-  font-family: Arial, sans-serif;
-  overflow: hidden;
+html,body{
+  margin:0;
+  width:100%;
+  height:100%;
+  background:black;
+  color:#ff5fa2;
+  font-family:Arial,sans-serif;
+  overflow:hidden;
 }
+
+/* ===== FUNDOS ===== */
+#bg1,#bg2{
+  position:fixed;
+  inset:0;
+  background-size:cover;
+  background-position:center;
+  opacity:0;
+  transition:opacity 1.5s;
+  z-index:-2;
+}
+.active{opacity:1}
 
 /* ===== LOGIN ===== */
-#login {
-  position: fixed;
-  inset: 0;
-  background: black;
-  z-index: 10000;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+#login{
+  position:fixed;
+  inset:0;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  background:black;
+  z-index:20;
 }
-
-input, button {
-  padding: 12px;
-  margin-top: 10px;
-  background: rgba(0,0,0,0.7);
-  color: #ff5fa2;
-  border: 2px solid #ff5fa2;
-  border-radius: 8px;
-  font-size: 16px;
-}
-
-button { cursor: pointer; }
-
-/* ===== CONTEÚDO (ESCONDIDO) ===== */
-#conteudo {
-  display: none;
-  width: 100%;
-  height: 100%;
+input,button{
+  padding:12px;
+  margin-top:10px;
+  background:rgba(0,0,0,.6);
+  color:#ff5fa2;
+  border:2px solid #ff5fa2;
+  border-radius:8px;
 }
 
 /* ===== GALERIA ===== */
-#galeria {
-  width: 100%;
-  height: 100%;
-  padding: 10px;
-  box-sizing: border-box;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  gap: 10px;
+#galeria{
+  display:none;
+  position:fixed;
+  inset:0;
+  padding:20px;
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(120px,1fr));
+  gap:12px;
+  overflow:auto;
+  z-index:5;
 }
-
-#galeria img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  border-radius: 12px;
-  cursor: pointer;
-  transition: transform 0.3s;
+#galeria img{
+  width:100%;
+  height:180px;
+  object-fit:cover;
+  border-radius:14px;
+  cursor:pointer;
+  transition:.3s;
 }
+#galeria img:hover{transform:scale(1.05)}
 
-#galeria img:hover {
-  transform: scale(1.05);
+/* ===== FULLSCREEN ===== */
+#fullscreen{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.95);
+  z-index:30;
+  justify-content:center;
+  align-items:center;
 }
-
-/* ===== MODAL FULLSCREEN ===== */
-#modal {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.95);
-  display: none;
-  justify-content: center;
-  align-items: center;
-  z-index: 9000;
+#fullscreen img{
+  max-width:95%;
+  max-height:95%;
+  border-radius:20px;
 }
-
-#modal img {
-  max-width: 95%;
-  max-height: 95%;
-  border-radius: 12px;
-}
-
-#fechar {
-  position: absolute;
-  top: 20px;
-  right: 25px;
-  font-size: 32px;
-  color: white;
-  cursor: pointer;
+#fechar{
+  position:absolute;
+  top:20px;
+  right:25px;
+  font-size:32px;
+  cursor:pointer;
+  color:#ff5fa2;
 }
 
 /* ===== PLAYER ===== */
-#player {
-  position: fixed;
-  bottom: 15px;
-  right: 15px;
-  width: 220px;
-  padding: 10px;
-  background: rgba(0,0,0,0.75);
-  border: 2px solid #ff5fa2;
-  border-radius: 15px;
-  z-index: 3000;
+#player{
+  position:fixed;
+  bottom:15px;
+  right:15px;
+  display:none;
+  align-items:center;
+  gap:10px;
+  background:rgba(0,0,0,.7);
+  border:2px solid #ff5fa2;
+  border-radius:16px;
+  padding:10px;
+  z-index:15;
+}
+#capaImg{
+  width:72px;
+  height:72px;
+  border-radius:12px;
+  border:2px solid #ff5fa2;
+  object-fit:cover;
+}
+#player button{
+  background:none;
+  border:none;
+  color:#ff5fa2;
+  font-size:20px;
+  cursor:pointer;
 }
 
-#player img {
-  width: 100%;
-  border-radius: 10px;
-  margin-bottom: 8px;
+/* ===== VOLUME ===== */
+#volumePanel{
+  display:none;
+  position:fixed;
+  bottom:110px;
+  right:15px;
+  background:rgba(0,0,0,.7);
+  border:1px solid #ff5fa2;
+  padding:10px;
+  border-radius:12px;
+  z-index:15;
 }
+input[type=range]{width:120px}
 
-#controles {
-  display: flex;
-  justify-content: space-between;
-  font-size: 22px;
-}
-
-#volume {
-  width: 100%;
-  margin-top: 8px;
-}
-
-/* ===== GATINHO ===== */
-#gatinho {
-  position: fixed;
-  left: 0;
-  top: 0;
-  font-size: 32px;
-  pointer-events: none;
-  z-index: 9999;
+/* ===== GATO ===== */
+#gatinho{
+  position:fixed;
+  font-size:32px;
+  pointer-events:none;
+  z-index:40;
 }
 </style>
 </head>
 
 <body>
 
-<!-- LOGIN -->
+<div id="bg1"></div>
+<div id="bg2"></div>
+
 <div id="login">
   <h1>I love u</h1>
   <input type="password" id="senha" placeholder="Senha">
   <button onclick="entrar()">Entrar</button>
 </div>
 
-<!-- CONTEÚDO ESCONDIDO -->
-<div id="conteudo">
+<div id="galeria"></div>
 
-  <!-- GALERIA -->
-  <div id="galeria">
-    <img src="bg1.jpeg" onclick="abrir(this.src)">
-    <img src="bg2.jpeg" onclick="abrir(this.src)">
-    <img src="bg3.jpeg" onclick="abrir(this.src)">
-    <img src="bg4.jpeg" onclick="abrir(this.src)">
-    <img src="bg5.jpeg" onclick="abrir(this.src)">
-    <img src="bg6.jpeg" onclick="abrir(this.src)">
-    <img src="bg7.jpeg" onclick="abrir(this.src)">
-    <img src="bg8.jpeg" onclick="abrir(this.src)">
-    <img src="bg9.jpeg" onclick="abrir(this.src)">
-    <img src="bg10.jpeg" onclick="abrir(this.src)">
-    <img src="bg11.jpeg" onclick="abrir(this.src)">
-    <img src="bg12.jpeg" onclick="abrir(this.src)">
-    <img src="bg13.jpeg" onclick="abrir(this.src)">
-    <img src="bg14.jpeg" onclick="abrir(this.src)">
-    <img src="bg15.jpeg" onclick="abrir(this.src)">
-    <img src="bg16.jpeg" onclick="abrir(this.src)">
-    <img src="bg17.jpeg" onclick="abrir(this.src)">
-  </div>
-
-  <!-- PLAYER -->
-  <div id="player">
-    <img src="amour.jpeg">
-    <div id="controles">
-      <span onclick="voltar()">⏪</span>
-      <span id="playBtn" onclick="playPause()">▶️</span>
-      <span onclick="avancar()">⏩</span>
-    </div>
-    <input type="range" id="volume" min="0" max="1" step="0.01">
-  </div>
-
+<div id="fullscreen">
+  <div id="fechar" onclick="fecharFoto()">✖</div>
+  <img id="imgFull">
 </div>
 
-<!-- MODAL -->
-<div id="modal">
-  <span id="fechar" onclick="fechar()">✕</span>
-  <img id="imgGrande">
+<div id="player">
+  <img id="capaImg">
+  <button onclick="anterior()">⏪</button>
+  <button onclick="playPause()">▶️</button>
+  <button onclick="proxima()">⏩</button>
+  <button onclick="toggleVolume()">🔊</button>
 </div>
 
-<audio id="musica" src="musica.mp3"></audio>
+<div id="volumePanel">
+  <input type="range" min="0" max="100" value="20" oninput="audio.volume=this.value/100">
+</div>
 
 <div id="gatinho">🐱</div>
 
-<script>
-/* ===== LOGIN ===== */
-const senhaCorreta = "10122025";
+<audio id="audio"></audio>
 
-function entrar() {
-  if (document.getElementById("senha").value === senhaCorreta) {
-    document.getElementById("login").style.display = "none";
-    document.getElementById("conteudo").style.display = "block";
-  } else {
-    alert("Senha incorreta!");
-  }
-}
+<script>
+const senhaOfuscada="MTAxMjIwMjU=";
+
+/* ===== FUNDOS ===== */
+const fundos=["bg1.jpeg","bg2.jpeg","bg3.jpeg","bg4.jpeg","bg5.jpeg","bg6.jpeg",
+  "bg7.jpeg","bg8.jpeg","bg9.jpeg","bg10.jpeg","bg11.jpeg","bg12.jpeg",
+  "bg13.jpeg","bg14.jpeg","bg15.jpeg","bg16.jpeg","bg17.jpeg"];
+let f=0,a=1;
+const b1=bg1,b2=bg2;
+b1.style.backgroundImage=`url(${fundos[0]})`;b1.classList.add("active");
+setInterval(()=>{
+  const at=a===1?b1:b2,px=a===1?b2:b1;
+  f=(f+1)%fundos.length;
+  px.style.backgroundImage=`url(${fundos[f]})`;
+  px.classList.add("active");
+  at.classList.remove("active");
+  a=a===1?2:1;
+},4000);
 
 /* ===== GALERIA ===== */
-function abrir(src) {
-  document.getElementById("imgGrande").src = src;
-  document.getElementById("modal").style.display = "flex";
-}
-
-function fechar() {
-  document.getElementById("modal").style.display = "none";
-}
-
-/* ===== PLAYER ===== */
-const audio = document.getElementById("musica");
-const playBtn = document.getElementById("playBtn");
-const volume = document.getElementById("volume");
-
-audio.volume = 0.2;
-volume.value = 0.2;
-
-function playPause() {
-  if (audio.paused) {
-    audio.play();
-    playBtn.textContent = "⏸️";
-  } else {
-    audio.pause();
-    playBtn.textContent = "▶️";
-  }
-}
-
-function voltar() { audio.currentTime = 0; }
-function avancar() { audio.currentTime += 10; }
-volume.oninput = () => audio.volume = volume.value;
-
-/* ===== GATINHO ===== */
-const gato = document.getElementById("gatinho");
-let mx=0,my=0,gx=0,gy=0;
-
-document.addEventListener("mousemove", e => {
-  mx = e.clientX;
-  my = e.clientY;
+const fotos=[...Array(17)].map((_,i)=>`bg${i+1}.jpeg`);
+const galeria=document.getElementById("galeria");
+fotos.forEach(f=>{
+  const img=document.createElement("img");
+  img.src=f;
+  img.onclick=()=>abrirFoto(f);
+  galeria.appendChild(img);
 });
 
-function moverGato() {
-  gx += (mx - gx) * 0.1;
-  gy += (my - gy) * 0.1;
-  gato.style.transform = `translate(${gx}px, ${gy}px)`;
-  requestAnimationFrame(moverGato);
+/* ===== FULL ===== */
+function abrirFoto(src){
+  imgFull.src=src;
+  fullscreen.style.display="flex";
 }
-moverGato();
+function fecharFoto(){fullscreen.style.display="none";}
+
+/* ===== PLAYER ===== */
+const playlist=[
+ {src:"musica.mp3",capa:"amour.jpeg"},
+ {src:"ClubBizarre.mp3",capa:"ClubBizarreIcon.jpeg"}
+];
+let atual=0,tocando=false;
+const audio=document.getElementById("audio");
+function carregar(){
+  audio.src=playlist[atual].src;
+  capaImg.src=playlist[atual].capa;
+  audio.play();tocando=true;
+}
+function playPause(){tocando?audio.pause():audio.play();tocando=!tocando}
+function proxima(){atual=(atual+1)%playlist.length;carregar()}
+function anterior(){atual=(atual-1+playlist.length)%playlist.length;carregar()}
+function toggleVolume(){
+  volumePanel.style.display=volumePanel.style.display==="block"?"none":"block";
+}
+
+/* ===== LOGIN ===== */
+function entrar(){
+  if(senha.value===atob(senhaOfuscada)){
+    login.style.display="none";
+    galeria.style.display="grid";
+    player.style.display="flex";
+    carregar();
+  }else alert("Senha incorreta");
+}
+
+/* ===== GATO ===== */
+let mx=0,my=0,gx=0,gy=0;
+document.addEventListener("mousemove",e=>{mx=e.clientX;my=e.clientY});
+(function loop(){
+  gx+=(mx-gx)*.1;gy+=(my-gy)*.1;
+  gatinho.style.transform=`translate(${gx}px,${gy}px)`;
+  requestAnimationFrame(loop);
+})();
 </script>
 
 </body>
