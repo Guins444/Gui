@@ -221,14 +221,35 @@ const playlist=[
  {src:"musica.mp3",capa:"amour.jpeg"},
  {src:"ClubBizarre.mp3",capa:"ClubBizarreIcon.jpeg"}
 ];
-let atual=0,tocando=false;
-const audio=document.getElementById("audio");
+let atual = 0;
+const audio = document.getElementById("audio");
+const playBtn = document.getElementById("playBtn");
+
 function carregar(){
-  audio.src=playlist[atual].src;
-  capaImg.src=playlist[atual].capa;
-  audio.play();tocando=true;
+  audio.src = playlist[atual].src;
+  capaImg.src = playlist[atual].capa;
+  audio.play();
 }
-function playPause(){tocando?audio.pause():audio.play();tocando=!tocando}
+
+function playPause(){
+  if(audio.paused){
+    audio.play();
+  }else{
+    audio.pause();
+  }
+}
+
+/* mantém o ícone sempre certo */
+audio.addEventListener("play",()=>{
+  playBtn.textContent = "⏸️";
+});
+audio.addEventListener("pause",()=>{
+  playBtn.textContent = "▶️";
+});
+audio.addEventListener("ended",()=>{
+  playBtn.textContent = "▶️";
+});
+
 function proxima(){atual=(atual+1)%playlist.length;carregar()}
 function anterior(){atual=(atual-1+playlist.length)%playlist.length;carregar()}
 function toggleVolume(){
@@ -257,3 +278,4 @@ document.addEventListener("mousemove",e=>{mx=e.clientX;my=e.clientY});
 
 </body>
 </html>
+
