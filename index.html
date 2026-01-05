@@ -5,131 +5,143 @@
 <title>I love u</title>
 
 <style>
-html, body {
-  margin: 0;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  font-family: Arial, sans-serif;
-  background: black;
-  color: #ff5fa2;
+html,body{
+  margin:0;
+  width:100%;
+  height:100%;
+  background:black;
+  color:#ff5fa2;
+  font-family:Arial,sans-serif;
+  overflow:hidden;
 }
 
 /* ===== FUNDOS ===== */
-#bg1, #bg2 {
-  position: fixed;
-  inset: 0;
-  background-size: cover;
-  background-position: center;
-  opacity: 0;
-  transition: opacity 1.5s;
-  z-index: -2;
+#bg1,#bg2{
+  position:fixed;
+  inset:0;
+  background-size:cover;
+  background-position:center;
+  opacity:0;
+  transition:opacity 1.5s;
+  z-index:-2;
 }
-#bg1.active, #bg2.active { opacity: 1; }
+.active{opacity:1}
 
 /* ===== LOGIN ===== */
-#login {
-  position: fixed;
-  inset: 0;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  background: black;
-  z-index: 5;
+#login{
+  position:fixed;
+  inset:0;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  background:black;
+  z-index:20;
 }
-input, button {
-  padding: 12px;
-  margin-top: 10px;
-  background: rgba(0,0,0,0.6);
-  color: #ff5fa2;
-  border: 2px solid #ff5fa2;
-  border-radius: 8px;
+input,button{
+  padding:12px;
+  margin-top:10px;
+  background:rgba(0,0,0,.6);
+  color:#ff5fa2;
+  border:2px solid #ff5fa2;
+  border-radius:8px;
 }
-button { cursor: pointer; }
+
+/* ===== GALERIA ===== */
+#galeria{
+  display:none;
+  position:fixed;
+  inset:0;
+  padding:20px;
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(120px,1fr));
+  gap:12px;
+  overflow:auto;
+  z-index:5;
+}
+#galeria img{
+  width:100%;
+  height:180px;
+  object-fit:cover;
+  border-radius:14px;
+  cursor:pointer;
+  transition:.3s;
+}
+#galeria img:hover{transform:scale(1.05)}
+
+/* ===== FULLSCREEN ===== */
+#fullscreen{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.95);
+  z-index:30;
+  justify-content:center;
+  align-items:center;
+}
+#fullscreen img{
+  max-width:95%;
+  max-height:95%;
+  border-radius:20px;
+}
+#fechar{
+  position:absolute;
+  top:20px;
+  right:25px;
+  font-size:32px;
+  cursor:pointer;
+  color:#ff5fa2;
+}
 
 /* ===== PLAYER ===== */
-#player {
-  position: fixed;
-  bottom: 15px;
-  right: 15px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  background: rgba(0,0,0,0.7);
-  border: 2px solid #ff5fa2;
-  border-radius: 14px;
-  padding: 10px;
-  z-index: 10;
+#player{
+  position:fixed;
+  bottom:15px;
+  right:15px;
+  display:none;
+  align-items:center;
+  gap:10px;
+  background:rgba(0,0,0,.7);
+  border:2px solid #ff5fa2;
+  border-radius:16px;
+  padding:10px;
+  z-index:15;
 }
-
-#capaImg {
-  width: 72px;
-  height: 72px;
-  border-radius: 12px;
-  object-fit: cover;
-  border: 2px solid #ff5fa2;
-  box-shadow: 0 0 10px rgba(255,95,162,0.6);
+#capaImg{
+  width:72px;
+  height:72px;
+  border-radius:12px;
+  border:2px solid #ff5fa2;
+  object-fit:cover;
 }
-
-#controles button {
-  font-size: 20px;
-  background: none;
-  border: none;
-  color: #ff5fa2;
-  cursor: pointer;
+#player button{
+  background:none;
+  border:none;
+  color:#ff5fa2;
+  font-size:20px;
+  cursor:pointer;
 }
 
 /* ===== VOLUME ===== */
-#volumePanel {
-  position: fixed;
-  bottom: 110px;
-  right: 15px;
-  width: 130px;
-  background: rgba(0,0,0,0.7);
-  border: 1px solid #ff5fa2;
-  border-radius: 12px;
-  padding: 10px;
-  display: none;
-  z-index: 10;
+#volumePanel{
+  display:none;
+  position:fixed;
+  bottom:110px;
+  right:15px;
+  background:rgba(0,0,0,.7);
+  border:1px solid #ff5fa2;
+  padding:10px;
+  border-radius:12px;
+  z-index:15;
 }
+input[type=range]{width:120px}
 
-input[type="range"] {
-  -webkit-appearance: none;
-  width: 100%;
-  background: transparent;
-}
-input[type="range"]::-webkit-slider-runnable-track {
-  height: 6px;
-  background: #333;
-  border-radius: 5px;
-}
-input[type="range"]::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  width: 16px;
-  height: 16px;
-  background: #ff5fa2;
-  border-radius: 50%;
-  margin-top: -5px;
-}
-input[type="range"]::-moz-range-track {
-  height: 6px;
-  background: #333;
-}
-input[type="range"]::-moz-range-thumb {
-  width: 16px;
-  height: 16px;
-  background: #ff5fa2;
-  border-radius: 50%;
-  border: none;
-}
-
-/* ===== GATINHO ===== */
-#gatinho {
-  position: fixed;
-  font-size: 32px;
-  pointer-events: none;
-  z-index: 20;
+/* ===== GATO ===== */
+#gatinho{
+  position:fixed;
+  font-size:32px;
+  pointer-events:none;
+  z-index:40;
 }
 </style>
 </head>
@@ -145,18 +157,23 @@ input[type="range"]::-moz-range-thumb {
   <button onclick="entrar()">Entrar</button>
 </div>
 
-<div id="player" style="display:none">
-  <img id="capaImg" src="amour.jpeg">
-  <div id="controles">
-    <button onclick="musicaAnterior()">⏪</button>
-    <button onclick="togglePlay()">▶️</button>
-    <button onclick="proximaMusica()">⏩</button>
-    <button onclick="toggleVolume()">🔊</button>
-  </div>
+<div id="galeria"></div>
+
+<div id="fullscreen">
+  <div id="fechar" onclick="fecharFoto()">✖</div>
+  <img id="imgFull">
+</div>
+
+<div id="player">
+  <img id="capaImg">
+  <button onclick="anterior()">⏪</button>
+  <button onclick="playPause()">▶️</button>
+  <button onclick="proxima()">⏩</button>
+  <button onclick="toggleVolume()">🔊</button>
 </div>
 
 <div id="volumePanel">
-  <input type="range" min="0" max="100" value="20" id="volumeRange">
+  <input type="range" min="0" max="100" value="20" oninput="audio.volume=this.value/100">
 </div>
 
 <div id="gatinho">🐱</div>
@@ -164,85 +181,77 @@ input[type="range"]::-moz-range-thumb {
 <audio id="audio"></audio>
 
 <script>
-const senhaOfuscada = "MTAxMjIwMjU=";
+const senhaOfuscada="MTAxMjIwMjU=";
 
 /* ===== FUNDOS ===== */
-const fundos = ["bg1.jpeg","bg2.jpeg","bg3.jpeg","bg4.jpeg","bg5.jpeg","bg6.jpeg",
+const fundos=["bg1.jpeg","bg2.jpeg","bg3.jpeg","bg4.jpeg","bg5.jpeg","bg6.jpeg",
   "bg7.jpeg","bg8.jpeg","bg9.jpeg","bg10.jpeg","bg11.jpeg","bg12.jpeg",
   "bg13.jpeg","bg14.jpeg","bg15.jpeg","bg16.jpeg","bg17.jpeg"];
-let idx = 0, ativo = 1;
-const bg1 = document.getElementById("bg1");
-const bg2 = document.getElementById("bg2");
-bg1.style.backgroundImage = `url('${fundos[0]}')`;
-bg1.classList.add("active");
+let f=0,a=1;
+const b1=bg1,b2=bg2;
+b1.style.backgroundImage=`url(${fundos[0]})`;b1.classList.add("active");
+setInterval(()=>{
+  const at=a===1?b1:b2,px=a===1?b2:b1;
+  f=(f+1)%fundos.length;
+  px.style.backgroundImage=`url(${fundos[f]})`;
+  px.classList.add("active");
+  at.classList.remove("active");
+  a=a===1?2:1;
+},4000);
 
-setInterval(() => {
-  const atual = ativo === 1 ? bg1 : bg2;
-  const prox = ativo === 1 ? bg2 : bg1;
-  idx = (idx + 1) % fundos.length;
-  prox.style.backgroundImage = `url('${fundos[idx]}')`;
-  prox.classList.add("active");
-  atual.classList.remove("active");
-  ativo = ativo === 1 ? 2 : 1;
-}, 4000);
+/* ===== GALERIA ===== */
+const fotos=[...Array(17)].map((_,i)=>`bg${i+1}.jpeg`);
+const galeria=document.getElementById("galeria");
+fotos.forEach(f=>{
+  const img=document.createElement("img");
+  img.src=f;
+  img.onclick=()=>abrirFoto(f);
+  galeria.appendChild(img);
+});
+
+/* ===== FULL ===== */
+function abrirFoto(src){
+  imgFull.src=src;
+  fullscreen.style.display="flex";
+}
+function fecharFoto(){fullscreen.style.display="none";}
 
 /* ===== PLAYER ===== */
-const playlist = [
-  { nome: "Amour", arquivo: "musica.mp3", capa: "amour.jpeg" },
-  { nome: "Club Bizarre", arquivo: "ClubBizarre.mp3", capa: "ClubBizarreIcon.jpeg" }
+const playlist=[
+ {src:"musica.mp3",capa:"amour.jpeg"},
+ {src:"ClubBizarre.mp3",capa:"ClubBizarreIcon.jpeg"}
 ];
-
-const audio = document.getElementById("audio");
-let atual = 0;
-let tocando = false;
-
-function carregarMusica(i){
-  audio.src = playlist[i].arquivo;
-  document.getElementById("capaImg").src = playlist[i].capa;
-  audio.volume = 0.2;
-  audio.play();
-  tocando = true;
+let atual=0,tocando=false;
+const audio=document.getElementById("audio");
+function carregar(){
+  audio.src=playlist[atual].src;
+  capaImg.src=playlist[atual].capa;
+  audio.play();tocando=true;
 }
-
-function togglePlay(){
-  if(tocando){ audio.pause(); tocando=false; }
-  else{ audio.play(); tocando=true; }
-}
-function proximaMusica(){
-  atual = (atual+1)%playlist.length;
-  carregarMusica(atual);
-}
-function musicaAnterior(){
-  atual = (atual-1+playlist.length)%playlist.length;
-  carregarMusica(atual);
+function playPause(){tocando?audio.pause():audio.play();tocando=!tocando}
+function proxima(){atual=(atual+1)%playlist.length;carregar()}
+function anterior(){atual=(atual-1+playlist.length)%playlist.length;carregar()}
+function toggleVolume(){
+  volumePanel.style.display=volumePanel.style.display==="block"?"none":"block";
 }
 
 /* ===== LOGIN ===== */
 function entrar(){
-  if(document.getElementById("senha").value === atob(senhaOfuscada)){
-    document.getElementById("login").style.display="none";
-    document.getElementById("player").style.display="flex";
-    carregarMusica(0);
-  } else alert("Senha incorreta");
+  if(senha.value===atob(senhaOfuscada)){
+    login.style.display="none";
+    galeria.style.display="grid";
+    player.style.display="flex";
+    carregar();
+  }else alert("Senha incorreta");
 }
 
-/* ===== VOLUME ===== */
-const volumePanel = document.getElementById("volumePanel");
-document.getElementById("volumeRange").oninput = e =>
-  audio.volume = e.target.value/100;
-function toggleVolume(){
-  volumePanel.style.display =
-    volumePanel.style.display==="block"?"none":"block";
-}
-
-/* ===== GATINHO ===== */
-const gato = document.getElementById("gatinho");
+/* ===== GATO ===== */
 let mx=0,my=0,gx=0,gy=0;
 document.addEventListener("mousemove",e=>{mx=e.clientX;my=e.clientY});
-(function anim(){
-  gx+=(mx-gx)*0.1; gy+=(my-gy)*0.1;
-  gato.style.transform=`translate(${gx}px,${gy}px)`;
-  requestAnimationFrame(anim);
+(function loop(){
+  gx+=(mx-gx)*.1;gy+=(my-gy)*.1;
+  gatinho.style.transform=`translate(${gx}px,${gy}px)`;
+  requestAnimationFrame(loop);
 })();
 </script>
 
