@@ -9,34 +9,10 @@ html, body {
   margin: 0;
   width: 100%;
   height: 100%;
-  overflow: hidden;
   font-family: Arial, sans-serif;
   background: black;
   color: #ff5fa2;
-}
-
-/* ===== GALERIA ===== */
-#galeria {
-  display: none;
-  width: 100%;
-  height: 100%;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 10px;
-  padding: 10px;
-  box-sizing: border-box;
-}
-
-#galeria img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  border-radius: 12px;
-  transition: transform 0.3s;
-}
-
-#galeria img:hover {
-  transform: scale(1.05);
+  overflow: hidden;
 }
 
 /* ===== LOGIN ===== */
@@ -61,18 +37,69 @@ input, button {
 
 button { cursor: pointer; }
 
+/* ===== GALERIA ===== */
+#galeria {
+  display: none;
+  width: 100%;
+  height: 100%;
+  padding: 10px;
+  box-sizing: border-box;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 10px;
+}
+
+#galeria img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: transform 0.3s;
+}
+
+#galeria img:hover {
+  transform: scale(1.05);
+}
+
+/* ===== MODAL GALERIA ===== */
+#modalGaleria {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.95);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+#modalGaleria img {
+  max-width: 95%;
+  max-height: 95%;
+  border-radius: 12px;
+}
+
+#fechar {
+  position: absolute;
+  top: 20px;
+  right: 25px;
+  font-size: 32px;
+  color: white;
+  cursor: pointer;
+}
+
 /* ===== PLAYER ===== */
 #player {
   position: fixed;
   bottom: 15px;
   right: 15px;
-  background: rgba(0,0,0,0.7);
+  background: rgba(0,0,0,0.75);
   border: 2px solid #ff5fa2;
   border-radius: 15px;
   padding: 10px;
   width: 220px;
   display: none;
-  z-index: 999;
+  z-index: 1000;
 }
 
 #player img {
@@ -100,7 +127,7 @@ button { cursor: pointer; }
   top: 0;
   font-size: 32px;
   pointer-events: none;
-  z-index: 1000;
+  z-index: 2000;
 }
 </style>
 </head>
@@ -118,17 +145,34 @@ button { cursor: pointer; }
 
 <!-- GALERIA -->
 <div id="galeria">
-  <img src="bg1.jpeg">
-  <img src="bg2.jpeg">
-  <img src="bg3.jpeg">
-  <img src="bg4.jpeg">
-  <img src="bg5.jpeg">
-  <img src="bg6.jpeg">
+  <img src="bg1.jpeg" onclick="abrirModal(this.src)">
+  <img src="bg2.jpeg" onclick="abrirModal(this.src)">
+  <img src="bg3.jpeg" onclick="abrirModal(this.src)">
+  <img src="bg4.jpeg" onclick="abrirModal(this.src)">
+  <img src="bg5.jpeg" onclick="abrirModal(this.src)">
+  <img src="bg6.jpeg" onclick="abrirModal(this.src)">
+  <img src="bg7.jpeg" onclick="abrirModal(this.src)">
+  <img src="bg8.jpeg" onclick="abrirModal(this.src)">
+  <img src="bg9.jpeg" onclick="abrirModal(this.src)">
+  <img src="bg10.jpeg" onclick="abrirModal(this.src)">
+  <img src="bg11.jpeg" onclick="abrirModal(this.src)">
+  <img src="bg12.jpeg" onclick="abrirModal(this.src)">
+  <img src="bg13.jpeg" onclick="abrirModal(this.src)">
+  <img src="bg14.jpeg" onclick="abrirModal(this.src)">
+  <img src="bg15.jpeg" onclick="abrirModal(this.src)">
+  <img src="bg16.jpeg" onclick="abrirModal(this.src)">
+  <img src="bg17.jpeg" onclick="abrirModal(this.src)">
+</div>
+
+<!-- MODAL -->
+<div id="modalGaleria">
+  <span id="fechar">✕</span>
+  <img id="imgModal">
 </div>
 
 <!-- PLAYER -->
 <div id="player">
-  <img id="capaImg" src="amour.jpeg">
+  <img src="amour.jpeg">
   <div id="controles">
     <span onclick="voltar()">⏪</span>
     <span onclick="playPause()" id="playBtn">▶️</span>
@@ -137,7 +181,7 @@ button { cursor: pointer; }
   <input type="range" id="volume" min="0" max="1" step="0.01">
 </div>
 
-<!-- ÁUDIO -->
+<!-- AUDIO -->
 <audio id="musica" src="musica.mp3"></audio>
 
 <!-- GATINHO -->
@@ -147,7 +191,6 @@ button { cursor: pointer; }
 /* ===== SENHA ===== */
 const senhaOfuscada = "MTAxMjIwMjU="; // 10122025
 
-/* ===== LOGIN ===== */
 function entrar() {
   if (document.getElementById("senha").value === atob(senhaOfuscada)) {
     document.getElementById("login").style.display = "none";
@@ -176,22 +219,31 @@ function playPause() {
   }
 }
 
-function voltar() {
-  audio.currentTime = 0;
+function voltar() { audio.currentTime = 0; }
+function avancar() { audio.currentTime += 10; }
+
+volume.oninput = () => audio.volume = volume.value;
+
+/* ===== MODAL ===== */
+const modal = document.getElementById("modalGaleria");
+const imgModal = document.getElementById("imgModal");
+
+function abrirModal(src) {
+  imgModal.src = src;
+  modal.style.display = "flex";
 }
 
-function avancar() {
-  audio.currentTime += 10;
-}
+document.getElementById("fechar").onclick = () => {
+  modal.style.display = "none";
+};
 
-volume.addEventListener("input", () => {
-  audio.volume = volume.value;
-});
+modal.onclick = e => {
+  if (e.target === modal) modal.style.display = "none";
+};
 
 /* ===== GATINHO ===== */
 const gato = document.getElementById("gatinho");
-let mouseX = 0, mouseY = 0;
-let gatoX = 0, gatoY = 0;
+let mouseX = 0, mouseY = 0, gatoX = 0, gatoY = 0;
 
 document.addEventListener("mousemove", e => {
   mouseX = e.clientX;
