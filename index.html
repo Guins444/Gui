@@ -121,6 +121,26 @@ input,button{
   font-size:20px;
   cursor:pointer;
 }
+#tempoMusica{
+  color:#ff5fa2;
+  font-size:14px;
+  min-width:80px;
+  text-align:center;
+}
+#barraProgresso{
+  width:150px;
+  height:6px;
+  background:rgba(255,95,162,0.3);
+  border-radius:3px;
+  cursor:pointer;
+  position:relative;
+}
+#barraAtual{
+  height:100%;
+  width:0%;
+  background:#ff5fa2;
+  border-radius:3px;
+}
 
 /* ===== VOLUME ===== */
 #volumePanel{
@@ -170,6 +190,10 @@ input[type=range]{width:120px}
   <button id="playBtn" onclick="playPause()">▶️</button>
   <button onclick="proxima()">⏩</button>
   <button onclick="toggleVolume()">🔊</button>
+  <div id="tempoMusica">00:00 / 00:00</div>
+  <div id="barraProgresso" onclick="mudarTempo(event)">
+    <div id="barraAtual"></div>
+  </div>
 </div>
 
 <div id="volumePanel">
@@ -201,7 +225,7 @@ setInterval(()=>{
 
 /* ===== GALERIA ===== */
 const galeria=document.getElementById("galeria");
-fundos.forEach(f=>{
+fundos.forEach(f=>{ 
   const img=document.createElement("img");
   img.src=f;
   img.onclick=()=>abrirFoto(f);
@@ -223,6 +247,8 @@ const playlist=[
 let atual=0;
 const audio=document.getElementById("audio");
 const playBtn=document.getElementById("playBtn");
+const tempoMusica=document.getElementById("tempoMusica");
+const barraAtual=document.getElementById("barraAtual");
 
 function carregar(){
   audio.src=playlist[atual].src;
@@ -230,9 +256,9 @@ function carregar(){
   audio.play();
   playBtn.textContent="⏸️";
 }
-function playPause(){
-  audio.paused ? audio.play() : audio.pause();
-}
+
+function playPause(){audio.paused ? audio.play() : audio.pause();}
+
 audio.addEventListener("play",()=>playBtn.textContent="⏸️");
 audio.addEventListener("pause",()=>playBtn.textContent="▶️");
 audio.addEventListener("ended",()=>playBtn.textContent="▶️");
@@ -240,8 +266,30 @@ audio.addEventListener("ended",()=>playBtn.textContent="▶️");
 function proxima(){atual=(atual+1)%playlist.length;carregar()}
 function anterior(){atual=(atual-1+playlist.length)%playlist.length;carregar()}
 function toggleVolume(){
-  volumePanel.style.display=
-    volumePanel.style.display==="block"?"none":"block";
+  volumePanel.style.display= volumePanel.style.display==="block"?"none":"block";
+}
+
+/* ===== TEMPO / BARRA ===== */
+function formatarTempo(s){
+  const m = Math.floor(s/60).toString().padStart(2,'0');
+  const sSeg = Math.floor(s%60).toString().padStart(2,'0');
+  return `${m}:${sSeg}`;
+}
+
+audio.addEventListener("loadedmetadata", ()=>{ 
+  tempoMusica.textContent = `00:00 / ${formatarTempo(audio.duration)}`;
+});
+
+audio.addEventListener("timeupdate", ()=>{
+  tempoMusica.textContent = `${formatarTempo(audio.currentTime)} / ${formatarTempo(audio.duration)}`;
+  barraAtual.style.width = `${(audio.currentTime/audio.duration)*100}%`;
+});
+
+function mudarTempo(e){
+  const rect = e.currentTarget.getBoundingClientRect();
+  const clickX = e.clientX - rect.left;
+  const newTime = (clickX / rect.width) * audio.duration;
+  audio.currentTime = newTime;
 }
 
 /* ===== LOGIN ===== */
