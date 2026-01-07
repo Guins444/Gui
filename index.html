@@ -167,13 +167,14 @@ input[type=range]{width:120px}
 <div id="player">
   <img id="capaImg">
   <button onclick="anterior()">⏪</button>
-  <button onclick="playPause()">▶️</button>
+  <button id="playBtn" onclick="playPause()">▶️</button>
   <button onclick="proxima()">⏩</button>
   <button onclick="toggleVolume()">🔊</button>
 </div>
 
 <div id="volumePanel">
-  <input type="range" min="0" max="100" value="20" oninput="audio.volume=this.value/100">
+  <input type="range" min="0" max="100" value="20"
+         oninput="audio.volume=this.value/100">
 </div>
 
 <div id="gatinho">🐱</div>
@@ -184,12 +185,11 @@ input[type=range]{width:120px}
 const senhaOfuscada="MTAxMjIwMjU=";
 
 /* ===== FUNDOS ===== */
-const fundos=["bg1.jpeg","bg2.jpeg","bg3.jpeg","bg4.jpeg","bg5.jpeg","bg6.jpeg",
-  "bg7.jpeg","bg8.jpeg","bg9.jpeg","bg10.jpeg","bg11.jpeg","bg12.jpeg",
-  "bg13.jpeg","bg14.jpeg","bg15.jpeg","bg16.jpeg","bg17.jpeg"];
+const fundos=[...Array(17)].map((_,i)=>`bg${i+1}.jpeg`);
 let f=0,a=1;
 const b1=bg1,b2=bg2;
-b1.style.backgroundImage=`url(${fundos[0]})`;b1.classList.add("active");
+b1.style.backgroundImage=`url(${fundos[0]})`;
+b1.classList.add("active");
 setInterval(()=>{
   const at=a===1?b1:b2,px=a===1?b2:b1;
   f=(f+1)%fundos.length;
@@ -200,9 +200,8 @@ setInterval(()=>{
 },4000);
 
 /* ===== GALERIA ===== */
-const fotos=[...Array(17)].map((_,i)=>`bg${i+1}.jpeg`);
 const galeria=document.getElementById("galeria");
-fotos.forEach(f=>{
+fundos.forEach(f=>{
   const img=document.createElement("img");
   img.src=f;
   img.onclick=()=>abrirFoto(f);
@@ -221,39 +220,28 @@ const playlist=[
  {src:"musica.mp3",capa:"amour.jpeg"},
  {src:"ClubBizarre.mp3",capa:"ClubBizarreIcon.jpeg"}
 ];
-let atual = 0;
-const audio = document.getElementById("audio");
-const playBtn = document.getElementById("playBtn");
+let atual=0;
+const audio=document.getElementById("audio");
+const playBtn=document.getElementById("playBtn");
 
 function carregar(){
-  audio.src = playlist[atual].src;
-  capaImg.src = playlist[atual].capa;
+  audio.src=playlist[atual].src;
+  capaImg.src=playlist[atual].capa;
   audio.play();
+  playBtn.textContent="⏸️";
 }
-
 function playPause(){
-  if(audio.paused){
-    audio.play();
-  }else{
-    audio.pause();
-  }
+  audio.paused ? audio.play() : audio.pause();
 }
-
-/* mantém o ícone sempre certo */
-audio.addEventListener("play",()=>{
-  playBtn.textContent = "⏸️";
-});
-audio.addEventListener("pause",()=>{
-  playBtn.textContent = "▶️";
-});
-audio.addEventListener("ended",()=>{
-  playBtn.textContent = "▶️";
-});
+audio.addEventListener("play",()=>playBtn.textContent="⏸️");
+audio.addEventListener("pause",()=>playBtn.textContent="▶️");
+audio.addEventListener("ended",()=>playBtn.textContent="▶️");
 
 function proxima(){atual=(atual+1)%playlist.length;carregar()}
 function anterior(){atual=(atual-1+playlist.length)%playlist.length;carregar()}
 function toggleVolume(){
-  volumePanel.style.display=volumePanel.style.display==="block"?"none":"block";
+  volumePanel.style.display=
+    volumePanel.style.display==="block"?"none":"block";
 }
 
 /* ===== LOGIN ===== */
@@ -278,4 +266,3 @@ document.addEventListener("mousemove",e=>{mx=e.clientX;my=e.clientY});
 
 </body>
 </html>
-
