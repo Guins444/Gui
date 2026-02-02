@@ -16,7 +16,7 @@ html,body{
   overflow:hidden;
 }
 
-/* ===== FUNDOS ===== */
+/* FUNDOS */
 #bg1,#bg2{
   position:fixed;
   inset:0;
@@ -28,7 +28,7 @@ html,body{
 }
 .active{opacity:1}
 
-/* ===== LOGIN ===== */
+/* LOGIN */
 #login{
   position:fixed;
   inset:0;
@@ -39,11 +39,6 @@ html,body{
   background:black;
   z-index:20;
   padding:20px;
-}
-
-#login h1{
-  text-align:center;
-  font-size:clamp(26px,6vw,38px);
 }
 
 input,button{
@@ -58,7 +53,7 @@ input,button{
   border-radius:10px;
 }
 
-/* ===== GALERIA ===== */
+/* GALERIA */
 #galeria{
   display:none;
   position:fixed;
@@ -81,7 +76,7 @@ input,button{
 }
 #galeria img:hover{transform:scale(1.05)}
 
-/* ===== FULLSCREEN ===== */
+/* FULLSCREEN */
 #fullscreen{
   display:none;
   position:fixed;
@@ -108,22 +103,25 @@ input,button{
   color:#ff5fa2;
 }
 
-/* ===== PLAYER ===== */
+/* PLAYER CENTRAL INFERIOR */
 #player{
   position:fixed;
-  bottom:12px;
+  bottom:15px;
   left:50%;
   transform:translateX(-50%);
+  
   display:none;
   align-items:center;
   gap:10px;
-  background:rgba(0,0,0,.7);
+
+  background:rgba(0,0,0,.75);
   border:2px solid #ff5fa2;
   border-radius:18px;
-  padding:10px 14px;
+  padding:10px 16px;
+
   z-index:15;
-  max-width:95%;
   backdrop-filter:blur(6px);
+  max-width:95%;
 }
 
 #capaImg{
@@ -147,11 +145,25 @@ input,button{
   white-space:nowrap;
 }
 
-/* ===== VOLUME ===== */
+/* MOBILE PLAYER */
+@media (max-width:600px){
+  #player{
+    width:90%;
+    justify-content:center;
+    flex-wrap:wrap;
+  }
+
+  #tempoMusica{
+    width:100%;
+    text-align:center;
+  }
+}
+
+/* VOLUME */
 #volumePanel{
   display:none;
   position:fixed;
-  bottom:90px;
+  bottom:95px;
   right:10px;
   background:rgba(0,0,0,.8);
   border:1px solid #ff5fa2;
@@ -162,46 +174,18 @@ input,button{
 
 input[type=range]{width:120px}
 
-/* ===== GATO ===== */
+/* GATO */
 #gatinho{
   position:fixed;
   font-size:28px;
   pointer-events:none;
   z-index:40;
 }
-
-/* ===== MOBILE EXTRA ===== */
-@media (max-width:500px){
-
-  #galeria{
-    grid-template-columns:repeat(2,1fr);
-  }
-
-  #galeria img{
-    height:140px;
-  }
-
-  #player{
-    flex-wrap:wrap;
-    justify-content:center;
-    gap:6px;
-    padding:8px;
-  }
-
-  #tempoMusica{
-    width:100%;
-    text-align:center;
-  }
-
-  #capaImg{
-    width:50px;
-    height:50px;
-  }
-}
 </style>
 </head>
 
 <body>
+
 <div id="bg1"></div>
 <div id="bg2"></div>
 
@@ -242,6 +226,7 @@ const senhaOfuscada="MTAxMjIwMjU=";
 const fundos=[...Array(17)].map((_,i)=>`bg${i+1}.jpeg`);
 let f=0,a=1;
 const b1=bg1,b2=bg2;
+
 b1.style.backgroundImage=`url(${fundos[0]})`;
 b1.classList.add("active");
 
@@ -268,7 +253,9 @@ function abrirFoto(src){
   imgFull.src=src;
   fullscreen.style.display="flex";
 }
-function fecharFoto(){fullscreen.style.display="none";}
+function fecharFoto(){
+  fullscreen.style.display="none";
+}
 
 /* PLAYER */
 const playlist=[
@@ -301,6 +288,7 @@ function proxima(){
   atual=(atual+1)%playlist.length;
   carregar();
 }
+
 function anterior(){
   atual=(atual-1+playlist.length)%playlist.length;
   carregar();
@@ -308,7 +296,7 @@ function anterior(){
 
 function toggleVolume(){
   volumePanel.style.display=
-    volumePanel.style.display==="block"?"none":"block";
+  volumePanel.style.display==="block"?"none":"block";
 }
 
 /* TEMPO */
@@ -333,9 +321,14 @@ function entrar(){
 
 /* GATO */
 let mx=0,my=0,gx=0,gy=0;
-document.addEventListener("mousemove",e=>{mx=e.clientX;my=e.clientY});
+document.addEventListener("mousemove",e=>{
+  mx=e.clientX;
+  my=e.clientY;
+});
+
 (function loop(){
-  gx+=(mx-gx)*.1; gy+=(my-gy)*.1;
+  gx+=(mx-gx)*.1;
+  gy+=(my-gy)*.1;
   gatinho.style.transform=`translate(${gx}px,${gy}px)`;
   requestAnimationFrame(loop);
 })();
