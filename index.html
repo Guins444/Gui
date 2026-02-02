@@ -2,7 +2,9 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>I love u</title>
+
 <style>
 html,body{
   margin:0;
@@ -36,14 +38,24 @@ html,body{
   align-items:center;
   background:black;
   z-index:20;
+  padding:20px;
 }
+
+#login h1{
+  text-align:center;
+  font-size:clamp(26px,6vw,38px);
+}
+
 input,button{
-  padding:12px;
-  margin-top:10px;
+  width:100%;
+  max-width:280px;
+  padding:14px;
+  margin-top:12px;
+  font-size:16px;
   background:rgba(0,0,0,.6);
   color:#ff5fa2;
   border:2px solid #ff5fa2;
-  border-radius:8px;
+  border-radius:10px;
 }
 
 /* ===== GALERIA ===== */
@@ -51,16 +63,17 @@ input,button{
   display:none;
   position:fixed;
   inset:0;
-  padding:20px;
+  padding:15px;
   display:grid;
   grid-template-columns:repeat(auto-fill,minmax(120px,1fr));
   gap:12px;
   overflow:auto;
   z-index:5;
 }
+
 #galeria img{
   width:100%;
-  height:180px;
+  height:160px;
   object-fit:cover;
   border-radius:14px;
   cursor:pointer;
@@ -77,17 +90,20 @@ input,button{
   z-index:30;
   justify-content:center;
   align-items:center;
+  padding:10px;
 }
+
 #fullscreen img{
-  max-width:95%;
-  max-height:95%;
-  border-radius:20px;
+  max-width:100%;
+  max-height:90%;
+  border-radius:16px;
 }
+
 #fechar{
   position:absolute;
-  top:20px;
-  right:25px;
-  font-size:32px;
+  top:15px;
+  right:20px;
+  font-size:28px;
   cursor:pointer;
   color:#ff5fa2;
 }
@@ -95,56 +111,92 @@ input,button{
 /* ===== PLAYER ===== */
 #player{
   position:fixed;
-  bottom:15px;
-  right:15px;
+  bottom:12px;
+  left:50%;
+  transform:translateX(-50%);
   display:none;
   align-items:center;
   gap:10px;
   background:rgba(0,0,0,.7);
   border:2px solid #ff5fa2;
-  border-radius:16px;
-  padding:10px;
+  border-radius:18px;
+  padding:10px 14px;
   z-index:15;
+  max-width:95%;
+  backdrop-filter:blur(6px);
 }
+
 #capaImg{
-  width:72px;
-  height:72px;
-  border-radius:12px;
+  width:60px;
+  height:60px;
+  border-radius:10px;
   border:2px solid #ff5fa2;
   object-fit:cover;
 }
+
 #player button{
   background:none;
   border:none;
   color:#ff5fa2;
-  font-size:20px;
+  font-size:22px;
   cursor:pointer;
 }
+
 #tempoMusica{
-  color:#ff5fa2;
-  font-size:14px;
+  font-size:13px;
+  white-space:nowrap;
 }
 
 /* ===== VOLUME ===== */
 #volumePanel{
   display:none;
   position:fixed;
-  bottom:110px;
-  right:15px;
-  background:rgba(0,0,0,.7);
+  bottom:90px;
+  right:10px;
+  background:rgba(0,0,0,.8);
   border:1px solid #ff5fa2;
   padding:10px;
   border-radius:12px;
   z-index:15;
 }
+
 input[type=range]{width:120px}
 
 /* ===== GATO ===== */
 #gatinho{
   position:fixed;
-  font-size:32px;
+  font-size:28px;
   pointer-events:none;
   z-index:40;
+}
+
+/* ===== MOBILE EXTRA ===== */
+@media (max-width:500px){
+
+  #galeria{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  #galeria img{
+    height:140px;
+  }
+
+  #player{
+    flex-wrap:wrap;
+    justify-content:center;
+    gap:6px;
+    padding:8px;
+  }
+
+  #tempoMusica{
+    width:100%;
+    text-align:center;
+  }
+
+  #capaImg{
+    width:50px;
+    height:50px;
+  }
 }
 </style>
 </head>
@@ -186,12 +238,13 @@ input[type=range]{width:120px}
 <script>
 const senhaOfuscada="MTAxMjIwMjU=";
 
-/* ===== FUNDOS ===== */
+/* FUNDOS */
 const fundos=[...Array(17)].map((_,i)=>`bg${i+1}.jpeg`);
 let f=0,a=1;
 const b1=bg1,b2=bg2;
 b1.style.backgroundImage=`url(${fundos[0]})`;
 b1.classList.add("active");
+
 setInterval(()=>{
   const at=a===1?b1:b2,px=a===1?b2:b1;
   f=(f+1)%fundos.length;
@@ -201,7 +254,7 @@ setInterval(()=>{
   a=a===1?2:1;
 },4000);
 
-/* ===== GALERIA ===== */
+/* GALERIA */
 const galeria=document.getElementById("galeria");
 fundos.forEach(f=>{
   const img=document.createElement("img");
@@ -210,19 +263,20 @@ fundos.forEach(f=>{
   galeria.appendChild(img);
 });
 
-/* ===== FULLSCREEN ===== */
+/* FULLSCREEN */
 function abrirFoto(src){
   imgFull.src=src;
   fullscreen.style.display="flex";
 }
 function fecharFoto(){fullscreen.style.display="none";}
 
-/* ===== PLAYER ===== */
+/* PLAYER */
 const playlist=[
  {src:"musica.mp3", capa:"amour.jpeg"},
  {src:"ClubBizarre.mp3", capa:"ClubBizarreIcon.jpeg"},
- {src:"AfterDarkMusic.mp3", capa:"AfterDarkIcon.jpeg"} // música adicionada
+ {src:"AfterDarkMusic.mp3", capa:"AfterDarkIcon.jpeg"}
 ];
+
 let atual=0;
 const audio=document.getElementById("audio");
 const playBtn=document.getElementById("playBtn");
@@ -233,7 +287,6 @@ function carregar(){
   audio.src=playlist[atual].src;
   capaImg.src=playlist[atual].capa;
   audio.play();
-  playBtn.textContent="⏸️";
 }
 
 function playPause(){
@@ -245,18 +298,20 @@ audio.addEventListener("pause",()=>playBtn.textContent="▶️");
 audio.addEventListener("ended",()=>proxima());
 
 function proxima(){
-  atual = (atual + 1) % playlist.length;
+  atual=(atual+1)%playlist.length;
   carregar();
 }
 function anterior(){
-  atual = (atual - 1 + playlist.length) % playlist.length;
+  atual=(atual-1+playlist.length)%playlist.length;
   carregar();
 }
+
 function toggleVolume(){
-  volumePanel.style.display = volumePanel.style.display==="block"?"none":"block";
+  volumePanel.style.display=
+    volumePanel.style.display==="block"?"none":"block";
 }
 
-/* ===== TEMPO MUSICA ===== */
+/* TEMPO */
 audio.addEventListener("timeupdate",()=>{
   let minAtual=Math.floor(audio.currentTime/60).toString().padStart(2,'0');
   let segAtual=Math.floor(audio.currentTime%60).toString().padStart(2,'0');
@@ -266,7 +321,7 @@ audio.addEventListener("timeupdate",()=>{
   tempoMusica.textContent=`${minAtual}:${segAtual} / ${minTotal}:${segTotal}`;
 });
 
-/* ===== LOGIN ===== */
+/* LOGIN */
 function entrar(){
   if(senha.value===atob(senhaOfuscada)){
     login.style.display="none";
@@ -276,11 +331,11 @@ function entrar(){
   }else alert("Senha incorreta");
 }
 
-/* ===== GATO ===== */
+/* GATO */
 let mx=0,my=0,gx=0,gy=0;
 document.addEventListener("mousemove",e=>{mx=e.clientX;my=e.clientY});
 (function loop(){
-  gx+=(mx-gx)*.1;gy+=(my-gy)*.1;
+  gx+=(mx-gx)*.1; gy+=(my-gy)*.1;
   gatinho.style.transform=`translate(${gx}px,${gy}px)`;
   requestAnimationFrame(loop);
 })();
